@@ -15,3 +15,5 @@ I needed to have this file in a MMDB format to be able to perform quick lookups 
 Publishing a Go code to download JSON, parse it and convert into MMDB.
 
 On top of it, I'm running a Lambda that does the same convertion and uploads resulting MMDB in a public S3 bucket. Lambda runs **every 3 hours** and saves MMDB file at: https://public-clouds-ip-ranges-mmdb.s3.amazonaws.com/aws.mmdb. Feel free to grab the file directly from the bucket if you don't want to complile and regularly run Go code. You can check last update timestamp by listing the bucket content (https://public-clouds-ip-ranges-mmdb.s3.amazonaws.com/)
+
+How to read aws.mmdb? In Python, `import maxminddb` ([docs](https://maxminddb.readthedocs.io/en/latest/)), read database and call get() method.
