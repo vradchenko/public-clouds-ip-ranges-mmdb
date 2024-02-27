@@ -84,6 +84,28 @@ func main() {
 
 	}
 
+	for _, rec := range result.Ipv6Prefixes {
+
+		_, network, err := net.ParseCIDR(rec.Ipv6Prefix)
+		if err != nil {
+			log.Fatal(err)
+			message := fmt.Sprintf("ParseCIDR error")
+			return &message, err
+		}
+
+		record := mmdbtype.Map{}
+		record["region"] = mmdbtype.String(rec.Region)
+		record["service"] = mmdbtype.String(rec.Service)
+		record["network_border_group"] = mmdbtype.String(rec.NetworkBorderGroup)
+
+		err = writer.Insert(network, record)
+		if err != nil {
+			log.Fatal(err)
+			message := fmt.Sprintf("Insert error")
+			return &message, err
+		}
+	}	
+
 	fh, err := os.Create("aws.mmdb")
 	if err != nil {
 		fmt.Println("Cannot create output file")
